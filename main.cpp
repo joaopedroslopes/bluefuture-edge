@@ -1,15 +1,15 @@
 #include <Servo.h>
 
-const int pinoPotNivel = A2;
-const int pinoPotTempo = A1;
-const int pinoPotAbertura = A0;
-const int pinoBotaoNivel = 3;
-const int pinoBotaoServo = 2;
-const int pinoLedInicio = 4;
-const int pinoServo = A5;
+const int potNivel = A2;
+const int potTempo = A1;
+const int potAbertura = A0;
+const int botaoNivel = 3;
+const int botaoServo = 2;
+const int ledInicio = 4;
+const int pinServo = A5;
 
-int valorPotNivel = 0;
-int valorPotTempo = 0;
+int valorpotNivel = 0;
+int valorpotTempo = 0;
 int valorPotAbertura = 0;
 int estadoBotaoNivel = 0;
 int estadoBotaoServo = 0;
@@ -20,26 +20,26 @@ int aberturaConfirmada = 0;
 Servo meuServo;
 
 void setup() {
-  pinMode(pinoBotaoNivel, INPUT_PULLUP);
-  pinMode(pinoBotaoServo, INPUT_PULLUP);
-  for (int i = pinoLedInicio; i <= 13; i++) {
+  pinMode(botaoNivel, INPUT_PULLUP);
+  pinMode(botaoServo, INPUT_PULLUP);
+  for (int i = ledInicio; i <= 13; i++) {
     pinMode(i, OUTPUT);
   }
-  meuServo.attach(pinoServo);
+  meuServo.attach(pinServo);
   Serial.begin(9600);
 }
 
 void loop() {
-  valorPotNivel = analogRead(pinoPotNivel);
-  valorPotTempo = analogRead(pinoPotTempo);
-  valorPotAbertura = analogRead(pinoPotAbertura);
+  valorpotNivel = analogRead(potNivel);
+  valorpotTempo = analogRead(potTempo);
+  valorPotAbertura = analogRead(potAbertura);
 
-  int nivelMapeado = map(valorPotNivel, 0, 1023, 0, 100);
-  int tempoMapeado = map(valorPotTempo, 0, 1023, 0, 60);
+  int nivelMapeado = map(valorpotNivel, 0, 1023, 0, 100);
+  int tempoMapeado = map(valorpotTempo, 0, 1023, 0, 60);
   int aberturaMapeada = map(valorPotAbertura, 0, 1023, 0, 180);
 
-  estadoBotaoNivel = digitalRead(pinoBotaoNivel);
-  estadoBotaoServo = digitalRead(pinoBotaoServo);
+  estadoBotaoNivel = digitalRead(botaoNivel);
+  estadoBotaoServo = digitalRead(botaoServo);
 
   if (estadoBotaoNivel == LOW) {
     nivelConfirmado = nivelMapeado;
@@ -75,8 +75,8 @@ void loop() {
 
 void atualizarLedBarGraph(int nivel) {
   int ledsAcender = map(nivel, 0, 100, 0, 10);
-  for (int i = pinoLedInicio; i <= 13; i++) {
-    digitalWrite(i, (i - pinoLedInicio < ledsAcender) ? HIGH : LOW);
+  for (int i = ledInicio; i <= 13; i++) {
+    digitalWrite(i, (i - ledInicio < ledsAcender) ? HIGH : LOW);
   }
 }
 
